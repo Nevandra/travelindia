@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Travel India</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @font-face {
+      font-family: 'Poppins';
+      src: url('Poppins-Regular.ttf') format('truetype');
+    }
+
+    @font-face {
+      font-family: 'inter';
+      src: url('Inter-Medium.otf') format('opentype');
+    }
+    
+    @font-face {
+      font-family: 'horizon';
+      src: url('horizon_outlined.otf') format('opentype');
+    }
+
+    @font-face {
+      font-family: 'horizon_normal';
+      src: url('horizon.otf') format('opentype');
+    }
+
+    body {
+      font-family: 'inter';
+      color: #333;
+      scroll-behavior: smooth;
+      background-color: #e6eaf6;
+      padding-top: 100px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(230, 234, 246, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(30, 30, 128, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(53, 60, 117, 0.2) 0%, transparent 50%);
+      z-index: -1;
+    }
+
+    .animated-circle {
+      position: fixed;
+      border-radius: 50%;
+      background: linear-gradient(45deg, rgba(230, 234, 246, 0.3), rgba(53, 60, 117, 0.3));
+      filter: blur(40px);
+      z-index: -1;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .circle-1 {
+      width: 300px;
+      height: 300px;
+      top: 10%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .circle-2 {
+      width: 400px;
+      height: 400px;
+      top: 60%;
+      right: 10%;
+      animation-delay: -7s;
+    }
+
+    .circle-3 {
+      width: 250px;
+      height: 250px;
+      bottom: 10%;
+      left: 30%;
+      animation-delay: -14s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      25% {
+        transform: translate(100px, 50px) rotate(90deg);
+      }
+      50% {
+        transform: translate(50px, 100px) rotate(180deg);
+      }
+      75% {
+        transform: translate(-50px, 50px) rotate(270deg);
+      }
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 30px;
+      background-color: #e6eaf6;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 80px;
+      margin-right: 10px;
+    }
+
+    .logo h1 {
+      font-family: 'inter';
+      font-size: 20px;
+      color: #1e1e80;
+    }
+
+    .logo h1 span {
+      color: #ffa500;
+    }
+
+    .logo p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+    }
+
+    nav ul li {
+      margin-left: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-size: 16px;
+    }
+
+    nav a:hover {
+      color: #ffa500;
+    }
+
+    .icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    .hero {
+      position: relative;
+      height: 600px;
+      overflow: hidden;
+    }
+
+    .slider {
+      position: relative;
+      height: 100%;
+      width: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      background: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('banner.jpg') no-repeat center center/cover;
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    .slide:nth-child(2) {
+      background: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('menu-image2.png') no-repeat center center/cover;
+    }
+
+    .slide:nth-child(3) {
+      background: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('menu-image3.png') no-repeat center center/cover;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      padding: 20px;
+    }
+
+    .hero-overlay h2 {
+      font-size: 50px;
+      max-width: 1000px;
+      line-height: 1.5;
+      color: #ffffff !important;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .slider-indicators {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .slider-indicators span {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: #e6eaf6;
+      border-radius: 50%;
+      margin: 0 5px;
+      opacity: 0.5;
+    }
+
+    .slider-indicators .active {
+      opacity: 1;
+    }
+
+    #menu-toggle {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        background: #e6eaf6;
+        width: 200px;
+        display: none;
+        padding: 20px;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      nav ul li {
+        margin: 15px 0;
+      }
+
+      #menu-toggle {
+        display: block;
+      }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    .desc {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 60px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(53,60,117,0.1);
+    }
+
+    .desc p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #444;
+    }
+
+    .content {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 60px;
+      align-items: center;
+    }
+
+    .content:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .divimg {
+      flex: 1;
+    }
+
+    .divimg img {
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(53,60,117,0.1);
+    }
+
+    .divcontent {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(53,60,117,0.1);
+    }
+
+    .divcontent h2 {
+      color: #353c75;
+      font-size: 32px;
+      margin-bottom: 20px;
+      font-family: 'horizon_normal';
+      background: none;
+      height: auto;
+      line-height: 1.4;
+    }
+
+    .divcontent p {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #444;
+      margin: 0;
+    }
+
+    .hotels {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 60px 0;
+    }
+
+    .hotel-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(53,60,117,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .hotel-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .hotel-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .hotel-info {
+      padding: 20px;
+    }
+
+    .hotel-info h4 {
+      color: #353c75;
+      font-size: 20px;
+      margin-bottom: 10px;
+      font-family: 'horizon_normal';
+    }
+
+    .hotel-info p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #444;
+      margin-bottom: 20px;
+    }
+
+    .book button {
+      background: #353c75;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 100%;
+    }
+
+    .book button:hover {
+      background: #1e1e80;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 36px;
+      color: #353c75;
+      margin: 40px 0;
+      font-family: 'horizon_normal';
+    }
+  </style>
+</head>
+
+<body>
+  <div class="animated-circle circle-1"></div>
+  <div class="animated-circle circle-2"></div>
+  <div class="animated-circle circle-3"></div>
+
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="Travel India Logo">
+      <div>
+        <h1>The Best Place To<span></span></h1>
+        <h1>Travel To Right Now!<span></span></h1>
+      </div>
+    </div>
+    <nav>
+      <ul id="nav-menu">
+        <li><a href="index.html">Main Menu</a></li>
+        <li><a href="destionations.html">Destinations</a></li>
+        <li><a href="travelguide.html">Travel Guides</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="#" id="menu-toggle"><img src="menu.png" alt="Menu" class="icon"></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="slider">
+      <div class="slide active"></div>
+    </div>
+    <div class="hero-overlay">
+      <h2>India Travel Guides</h2>
+    </div>
+  </section>
+
+  <div class="container">
+    <h2 style="text-align: center; font-size: 36px; color: #353c75; margin-bottom: 40px; font-family: 'horizon_normal';">Welcome to India</h2>
+    <div class="desc">
+      <p>India is a land of vibrant culture, ancient traditions, and breathtaking landscapes. Whether you're wandering through the colorful bazaars of Jaipur, exploring the majestic forts of Delhi, or enjoying the serene backwaters of Kerala, India offers something for every kind of traveler. This guide will help you plan a memorable and hassle-free journey.</p>
+    </div>
+
+    <div class="content">
+      <div class="divimg">
+        <img src="gajah.jpg" alt="Elephant in India">
+      </div>
+      <div class="divcontent">
+        <h2>India Travel Tips for First-Time Visitors</h2>
+        <p>Traveling to India for the first time can be both exciting and overwhelming. To make the most of your visit, it's important to understand local customs, dress modestly, and always carry bottled water. Be prepared for sensory overload — from the spicy aromas of street food to the honking of rickshaws — it's all part of the experience.</p>
+        <p>Consider starting your journey in well-traveled areas like Delhi, Agra, or Mumbai before venturing into rural regions. Always have cash on hand, as many smaller shops don't accept cards. And most importantly, approach your travels with an open mind and respectful curiosity.</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="divcontent">
+        <h2>Exploring India's Rich Heritage</h2>
+        <p>One of the best ways to experience India's heritage is by visiting historic forts and palaces. Cities like Jaipur and Udaipur offer royal charm, with elephant rides, folk dances, and traditional architecture. Don't forget to explore local art and textile markets for unique souvenirs.</p>
+        <p>Wander through the courtyards of ancient havelis, admire intricate mirror work and frescoes, and savor traditional Rajasthani cuisine at rooftop restaurants overlooking city palaces. Many of these sites come alive at night with light shows and cultural performances, giving you a glimpse into India's regal past.</p>
+      </div>
+      <div class="divimg">
+        <img src="architecture.jpg" alt="Indian Architecture">
+      </div>
+    </div>
+
+    <h2>Featured Hotels</h2>
+
+    <div class="hotels">
+      <div class="hotel-card">
+        <img src="hotel1.jpeg" alt="Taj Mahal Palace">
+        <div class="hotel-info">
+          <h4>Taj Mahal Palace - ⭐⭐⭐⭐⭐</h4>
+          <p>Established in 1903, the Taj Mahal Palace is a symbol of Indian pride and hospitality. Overlooking the Gateway of India, this iconic hotel combines royal history with modern luxury, featuring world-class art collections, exquisite gardens, and a serene pool area.</p>
+          <div class="book">
+            <a href="https://www.booking.com/searchresults.html?ss=India" target="_blank" style="text-decoration: none;">
+              <button>Book Now</button>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hotel-card">
+        <img src="hotel2.jpg" alt="The Oberoi Udaivilas">
+        <div class="hotel-info">
+          <h4>The Oberoi Udaivilas - ⭐⭐⭐⭐⭐</h4>
+          <p>Situated on the banks of Lake Pichola, The Oberoi Udaivilas is renowned for its majestic architecture and tranquil ambiance. The hotel offers luxurious rooms with semi-private pools, lush gardens, and panoramic views of the lake.</p>
+          <div class="book">
+            <a href="https://www.booking.com/searchresults.html?ss=India" target="_blank" style="text-decoration: none;">
+              <button>Book Now</button>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hotel-card">
+        <img src="hotel3.jpg" alt="Umaid Bhawan Palace">
+        <div class="hotel-info">
+          <h4>Umaid Bhawan Palace - ⭐⭐⭐⭐</h4>
+          <p>Perched atop Chittar Hill, Umaid Bhawan Palace is one of the world's largest private residences and a part of the Taj Hotels. This golden-hued sandstone palace offers a blend of Eastern and Western architectural influences.</p>
+          <div class="book">
+            <a href="https://www.booking.com/searchresults.html?ss=India" target="_blank" style="text-decoration: none;">
+              <button>Book Now</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer style="background: #353c75; color: #fff; padding: 60px 20px 30px; position: relative;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
+        <div>
+          <h3 style="font-size: 24px; margin-bottom: 20px; font-family: 'horizon_normal';">About Us</h3>
+          <p style="color: #e6eaf6; line-height: 1.6;">Your trusted companion in exploring the diverse and vibrant landscapes of India. We're dedicated to making your travel experience unforgettable.</p>
+        </div>
+        
+        <div>
+          <h3 style="font-size: 24px; margin-bottom: 20px; font-family: 'horizon_normal';">Quick Links</h3>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin: 10px 0;"><a href="destionations.html" style="color: #e6eaf6; text-decoration: none; transition: color 0.3s;">Destinations</a></li>
+            <li style="margin: 10px 0;"><a href="travelguide.html" style="color: #e6eaf6; text-decoration: none; transition: color 0.3s;">Travel Guides</a></li>
+            <li style="margin: 10px 0;"><a href="gallery.html" style="color: #e6eaf6; text-decoration: none; transition: color 0.3s;">Gallery</a></li>
+            <li style="margin: 10px 0;"><a href="contact.html" style="color: #e6eaf6; text-decoration: none; transition: color 0.3s;">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 style="font-size: 24px; margin-bottom: 20px; font-family: 'horizon_normal';">Contact Info</h3>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin: 10px 0; color: #e6eaf6;">Email: info@travelindia.com</li>
+            <li style="margin: 10px 0; color: #e6eaf6;">Phone: +91 123 456 7890</li>
+            <li style="margin: 10px 0; color: #e6eaf6;">Address: New Delhi, India</li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 style="font-size: 24px; margin-bottom: 20px; font-family: 'horizon_normal';">Follow Us</h3>
+          <div style="display: flex; gap: 15px;">
+            <a href="#" style="color: #e6eaf6; text-decoration: none; font-size: 24px;">📱</a>
+            <a href="#" style="color: #e6eaf6; text-decoration: none; font-size: 24px;">📸</a>
+            <a href="#" style="color: #e6eaf6; text-decoration: none; font-size: 24px;">🐦</a>
+            <a href="#" style="color: #e6eaf6; text-decoration: none; font-size: 24px;">📘</a>
+          </div>
+        </div>
+      </div>
+      
+      <div style="text-align: center; padding-top: 30px; border-top: 1px solid rgba(230, 234, 246, 0.1);">
+        <p style="color: #e6eaf6;">© 2024 Travel India. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const menuToggle = document.getElementById("menu-toggle");
+    const navMenu = document.getElementById("nav-menu");
+
+    menuToggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      navMenu.classList.toggle("active");
+    });
+
+    const navLinks = document.querySelectorAll("nav a");
+
+    navLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("active");
+      });
+    });
+  </script>
+</body>
+</html>

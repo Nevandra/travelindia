@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Travel India</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @font-face {
+      font-family: 'inter';
+      src: url('Inter-Medium.otf') format('opentype');
+    }
+
+    body {
+      font-family: 'inter';
+      color: #333;
+      scroll-behavior: smooth;
+      background-color: #e6eaf6;
+      padding-top: 100px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(230, 234, 246, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(30, 30, 128, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(53, 60, 117, 0.2) 0%, transparent 50%);
+      z-index: -1;
+    }
+
+    .animated-circle {
+      position: fixed;
+      border-radius: 50%;
+      background: linear-gradient(45deg, rgba(230, 234, 246, 0.3), rgba(53, 60, 117, 0.3));
+      filter: blur(40px);
+      z-index: -1;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .circle-1 {
+      width: 300px;
+      height: 300px;
+      top: 10%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .circle-2 {
+      width: 400px;
+      height: 400px;
+      top: 60%;
+      right: 10%;
+      animation-delay: -7s;
+    }
+
+    .circle-3 {
+      width: 250px;
+      height: 250px;
+      bottom: 10%;
+      left: 30%;
+      animation-delay: -14s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      25% {
+        transform: translate(100px, 50px) rotate(90deg);
+      }
+      50% {
+        transform: translate(50px, 100px) rotate(180deg);
+      }
+      75% {
+        transform: translate(-50px, 50px) rotate(270deg);
+      }
+    }
+
+    .bg-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(circle at 60% 30%, rgba(53, 60, 117, 0.3) 0%, #e6eaf6 60%);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 30px;
+      background-color: #e6eaf6;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 80px;
+      margin-right: 10px;
+    }
+
+    .logo h1 {
+      font-family: 'inter';
+      font-size: 20px;
+      color: #1e1e80;
+    }
+
+    .logo h1 span {
+      color: #ffa500;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+    }
+
+    nav ul li {
+      margin-left: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-size: 16px;
+    }
+
+    nav a:hover {
+      color: #ffa500;
+    }
+
+    .icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    .hero {
+      position: relative;
+      height: 600px;
+      overflow: hidden;
+    }
+
+    .slider {
+      position: relative;
+      height: 100%;
+      width: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      background: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url("Builduing 1.png") no-repeat center center/cover;
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    .slide:nth-child(2) {
+      background: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('menu-image2.png') no-repeat center center/cover;
+    }
+
+    .slide:nth-child(3) {
+      background: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('menu-image3.png') no-repeat center center/cover;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #e6eaf6;
+      padding: 20px;
+    }
+
+    .hero-overlay h2 {
+      font-size: 50px;
+      max-width: 1000px;
+      line-height: 1.5;
+    }
+
+    #menu-toggle {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        background: #e6eaf6;
+        width: 200px;
+        display: none;
+        padding: 20px;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      nav ul li {
+        margin: 15px 0;
+      }
+
+      #menu-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="animated-circle circle-1"></div>
+  <div class="animated-circle circle-2"></div>
+  <div class="animated-circle circle-3"></div>
+  <div class="bg-overlay"></div>
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="Travel India Logo">
+      <div>
+        <h1>The Best Place To<span></span></h1>
+        <h1>Travel To Right Now!<span></span></h1>
+      </div>
+    </div>
+    <nav>
+      <ul id="nav-menu">
+        <li><a href="index.html">Main Menu</a></li>
+        <li><a href="itenary.html">Destinations</a></li>
+        <li><a href="TravelGuide.html">Travel Guides</a></li>
+        <li><a href="galeri.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="#" id="menu-toggle"><img src="Builduing 1.png" alt="Menu" class="icon"></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="slider">
+      <div class="slide active"></div>
+      <div class="slide"></div>
+      <div class="slide"></div>
+    </div>
+    <div class="hero-overlay">
+      <h2>Trip Itineraries & Travel inspiration</h2>
+    </div>
+  </section>
+
+  <!-- Trips Section -->
+  <section style="padding: 50px; background-color: transparent;">
+    <h2 style="text-align: center; font-size: 36px; margin-bottom: 40px; color: #1e1e80; font-family: 'inter';">
+      Trips <span>✈️🌏🧳</span>
+    </h2>
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
+      <div style="background-color: rgba(255, 255, 255, 0.9); width: 300px; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <img src="Book 1.png" alt="Trip Image 1" style="width: 100%; border-radius: 8px;">
+        <p style="margin-top: 10px; color: #1e1e80; font-weight: bold;">Golden Triangle Tour - 3 Days</p>
+        <p style="margin: 10px 0; font-size: 14px; color: #333; line-height: 1.6;">
+          Experience the essence of India in 3 days! Visit Delhi's historic monuments, Agra's magnificent Taj Mahal, and Jaipur's royal palaces. Package includes luxury accommodation, private transport, expert guides, and authentic local meals. Perfect for first-time visitors!
+        </p>
+        <ul style="margin: 15px 0; font-size: 14px; color: #666; padding-left: 20px;">
+          <li>Professional tour guide</li>
+          <li>4-star hotel stays</li>
+          <li>All entrance fees included</li>
+          <li>Breakfast and dinner</li>
+        </ul>
+        <a href="https://www.booking.com/searchresults.html?ss=India" target="_blank" style="text-decoration: none;">
+          <button style="margin-top: 10px; background-color: #ff4500; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Book Now</button>
+        </a>
+      </div>
+
+      <div style="background-color: rgba(255, 255, 255, 0.9); width: 300px; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <img src="Book 2.png" alt="Trip Image 2" style="width: 100%; border-radius: 8px;">
+        <p style="margin-top: 10px; color: #1e1e80; font-weight: bold;">Kerala Backwaters - 7 Days</p>
+        <p style="margin: 10px 0; font-size: 14px; color: #333; line-height: 1.6;">
+          Immerse yourself in God's Own Country for a week! Cruise through serene backwaters, relax on pristine beaches, experience traditional Ayurveda, and explore spice plantations. Includes houseboat stay, wellness treatments, and cultural performances.
+        </p>
+        <ul style="margin: 15px 0; font-size: 14px; color: #666; padding-left: 20px;">
+          <li>Luxury houseboat experience</li>
+          <li>Ayurvedic spa treatment</li>
+          <li>Cultural shows</li>
+          <li>All meals included</li>
+        </ul>
+        <a href="https://www.booking.com/searchresults.html?ss=Kerala" target="_blank" style="text-decoration: none;">
+          <button style="margin-top: 10px; background-color: #ff4500; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Book Now</button>
+        </a>
+      </div>
+
+      <div style="background-color: rgba(255, 255, 255, 0.9); width: 300px; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <img src="Book 3.png" alt="Trip Image 3" style="width: 100%; border-radius: 8px;">
+        <p style="margin-top: 10px; color: #1e1e80; font-weight: bold;">Grand India Explorer - 14 Days</p>
+        <p style="margin: 10px 0; font-size: 14px; color: #333; line-height: 1.6;">
+          The ultimate Indian adventure! Journey from the Himalayas to the beaches of Goa. Experience diverse cultures, cuisines, and landscapes. Visit ancient temples, bustling markets, wildlife sanctuaries, and modern cities. A comprehensive tour of India's highlights.
+        </p>
+        <ul style="margin: 15px 0; font-size: 14px; color: #666; padding-left: 20px;">
+          <li>Multi-city exploration</li>
+          <li>5-star accommodations</li>
+          <li>Internal flights included</li>
+          <li>24/7 tour assistance</li>
+        </ul>
+        <a href="https://www.booking.com/searchresults.html?ss=India" target="_blank" style="text-decoration: none;">
+          <button style="margin-top: 10px; background-color: #ff4500; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Book Now</button>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experiences Section -->
+  <section style="padding: 50px; background-color: transparent;">
+    <h2 style="text-align: center; font-size: 36px; margin-bottom: 40px; color: #1e1e80; font-family: 'inter';">
+      Experiences <span>🎯🌟✨</span>
+    </h2>
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
+      <div style="background-color: rgba(255, 255, 255, 0.9); width: 300px; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(0); transition: transform 0.3s;">
+        <img src="Religion Experience.jpg" alt="Cultural Experience" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+        <p style="margin-top: 15px; color: #1e1e80; font-weight: bold; font-size: 18px;">Cultural Immersion</p>
+        <p style="margin: 10px 0; font-size: 14px; color: #666; line-height: 1.6;">Experience authentic Indian traditions, festivals, and local customs with our guided cultural tours.</p>
+        <a href="https://www.thrillophilia.com/" target="_blank" style="text-decoration: none; display: block; margin-top: 15px;">
+          <button style="background-color: #1e1e80; color: white; padding: 12px 24px; border: none; border-radius: 25px; cursor: pointer; width: 100%; transition: background-color 0.3s;">Learn More</button>
+        </a>
+      </div>
+
+      <div style="background-color: rgba(255, 255, 255, 0.9); width: 300px; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(0); transition: transform 0.3s;">
+        <img src="Culinery Experience.jpg" alt="Food Experience" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+        <p style="margin-top: 15px; color: #1e1e80; font-weight: bold; font-size: 18px;">Culinary Journey</p>
+        <p style="margin: 10px 0; font-size: 14px; color: #666; line-height: 1.6;">Discover the rich flavors of Indian cuisine through cooking classes and food tours.</p>
+        <a href="https://www.thrillophilia.com/" target="_blank" style="text-decoration: none; display: block; margin-top: 15px;">
+          <button style="background-color: #1e1e80; color: white; padding: 12px 24px; border: none; border-radius: 25px; cursor: pointer; width: 100%; transition: background-color 0.3s;">Learn More</button>
+        </a>
+      </div>
+
+      <div style="background-color: rgba(255, 255, 255, 0.9); width: 300px; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(0); transition: transform 0.3s;">
+        <img src="Adventure Sport.jpg" alt="Adventure Experience" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+        <p style="margin-top: 15px; color: #1e1e80; font-weight: bold; font-size: 18px;">Adventure Sports</p>
+        <p style="margin: 10px 0; font-size: 14px; color: #666; line-height: 1.6;">Get your adrenaline pumping with exciting activities like rafting, trekking, and paragliding.</p>
+        <a href="https://www.thrillophilia.com/adventure-sports-in-india" target="_blank" style="text-decoration: none; display: block; margin-top: 15px;">
+          <button style="background-color: #1e1e80; color: white; padding: 12px 24px; border: none; border-radius: 25px; cursor: pointer; width: 100%; transition: background-color 0.3s;">Learn More</button>
+        </a>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Travel India</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @font-face {
+      font-family: 'Poppins';
+      src: url('Poppins-Regular.ttf') format('truetype');
+    }
+
+    @font-face {
+      font-family: 'inter';
+      src: url('Inter-Medium.otf') format('opentype');
+    }
+    
+    @font-face {
+      font-family: 'horizon';
+      src: url('horizon_outlined.otf') format('opentype');
+    }
+
+    @font-face {
+      font-family: 'horizon_normal';
+      src: url('horizon.otf') format('opentype');
+    }
+
+    body {
+        font-family: 'inter';
+        color: #333;
+        scroll-behavior: smooth;
+        background-color: #e6eaf6;
+        padding-top: 100px;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(230, 234, 246, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(30, 30, 128, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(53, 60, 117, 0.2) 0%, transparent 50%);
+      z-index: -1;
+    }
+
+    .animated-circle {
+      position: fixed;
+      border-radius: 50%;
+      background: linear-gradient(45deg, rgba(230, 234, 246, 0.3), rgba(53, 60, 117, 0.3));
+      filter: blur(40px);
+      z-index: -1;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .circle-1 {
+      width: 300px;
+      height: 300px;
+      top: 10%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .circle-2 {
+      width: 400px;
+      height: 400px;
+      top: 60%;
+      right: 10%;
+      animation-delay: -7s;
+    }
+
+    .circle-3 {
+      width: 250px;
+      height: 250px;
+      bottom: 10%;
+      left: 30%;
+      animation-delay: -14s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      25% {
+        transform: translate(100px, 50px) rotate(90deg);
+      }
+      50% {
+        transform: translate(50px, 100px) rotate(180deg);
+      }
+      75% {
+        transform: translate(-50px, 50px) rotate(270deg);
+      }
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 30px;
+        background-color: #e6eaf6;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 80px;
+      margin-right: 10px;
+    }
+
+    .logo h1 {
+      font-family: 'inter';
+      font-size: 20px;
+      color: #1e1e80;
+    }
+
+    .logo h1 span {
+      color: #ffa500;
+    }
+
+    .logo p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+    }
+
+    nav ul li {
+      margin-left: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-size: 16px;
+    }
+
+    nav a:hover {
+      color: #ffa500;
+    }
+
+    .icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    .hero {
+      position: relative;
+      height: 600px;
+      overflow: hidden;
+    }
+
+    .slider {
+      position: relative;
+      height: 100%;
+      width: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      background: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('menu-image.png') no-repeat center center/cover;
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    .slide:nth-child(2) {
+      background: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('menu-image2.png') no-repeat center center/cover;
+    }
+
+    .slide:nth-child(3) {
+      background: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('menu-image3.png') no-repeat center center/cover;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #e6eaf6;
+      padding: 20px;
+    }
+    
+    .bg-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(circle at 60% 30%, rgba(53, 60, 117, 0.3) 0%, #e6eaf6 60%);
+    }
+    .hero-overlay h2 {
+      font-size: 50px;
+      max-width: 1000px;
+      line-height: 1.5;
+    }
+
+    .slider-indicators {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .slider-indicators span {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: #e6eaf6;
+      border-radius: 50%;
+      margin: 0 5px;
+      opacity: 0.5;
+    }
+
+    .slider-indicators .active {
+      opacity: 1;
+    }
+
+    #menu-toggle {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        background: #e6eaf6;
+        width: 200px;
+        display: none;
+        padding: 20px;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      nav ul li {
+        margin: 15px 0;
+      }
+
+      #menu-toggle {
+        display: block;
+      }
+    }
+
+    .info-carousel-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 40px 0 60px 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .info-carousel {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 1100px;
+      overflow: visible;
+      position: relative;
+      min-height: 350px;
+    }
+
+    .info-card {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(53,60,117,0.10);
+      margin: 0 16px;
+      min-width: 300px;
+      max-width: 320px;
+      flex: 0 0 320px;
+      opacity: 0;
+      transform: scale(0.7) translateY(40px);
+      transition: all 0.6s cubic-bezier(.4,2,.3,1);
+      position: absolute;
+      top: 0;
+      left: 50%;
+      pointer-events: none;
+      z-index: 1;
+      filter: blur(2px);
+    }
+
+    .info-card.center {
+      opacity: 1;
+      transform: translate(-50%, 0) scale(1) translateY(0);
+      pointer-events: auto;
+      z-index: 5;
+      filter: none;
+      left: 50%;
+    }
+
+    .info-card.left1 {
+      opacity: 0.5;
+      transform: translate(-150%, 0) scale(0.85) translateY(10px);
+      z-index: 4;
+      filter: blur(0.5px);
+      left: 50%;
+    }
+
+    .info-card.right1 {
+      opacity: 0.5;
+      transform: translate(50%, 0) scale(0.85) translateY(10px);
+      z-index: 4;
+      filter: blur(0.5px);
+      left: 50%;
+    }
+
+    .info-card.left2 {
+      opacity: 0.2;
+      transform: translate(-250%, 0) scale(0.7) translateY(20px);
+      z-index: 3;
+      filter: blur(1px);
+      left: 50%;
+    }
+
+    .info-card.right2 {
+      opacity: 0.2;
+      transform: translate(150%, 0) scale(0.7) translateY(20px);
+      z-index: 3;
+      filter: blur(1px);
+      left: 50%;
+    }
+
+    .info-card:not(.center):not(.left1):not(.right1):not(.left2):not(.right2) {
+      opacity: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .info-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 18px 18px 0 0;
+    }
+
+    .info-card h3 {
+      font-family: 'horizon_normal', 'inter', sans-serif;
+      font-size: 1.3em;
+      margin: 18px 0 8px 0;
+      color: #353c75;
+      text-align: center;
+    }
+
+    .info-card p {
+      font-size: 1em;
+      color: #444;
+      padding: 0 18px 18px 18px;
+      text-align: center;
+    }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      margin-top: 18px;
+    }
+
+    .carousel-dots .dot {
+      width: 10px;
+      height: 10px;
+      background: #353c75;
+      opacity: 0.3;
+      border-radius: 50%;
+      margin: 0 6px;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+
+    .carousel-dots .dot.active {
+      opacity: 1;
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #353c75;
+      width: 40px;
+      height: 40px;
+      font-size: 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: color 0.2s;
+      outline: none;
+      box-shadow: none;
+      padding: 0;
+    }
+
+    .carousel-arrow:hover {
+      color: #1e1e80;
+    }
+
+    .carousel-arrow.left {
+      left: 10px;
+    }
+
+    .carousel-arrow.right {
+      right: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="animated-circle circle-1"></div>
+<div class="animated-circle circle-2"></div>
+<div class="animated-circle circle-3"></div>
+
+<div class="bg-overlay"></div>
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="Travel India Logo">
+      <div>
+        <h1>The Best Place To<span></span></h1>
+        <h1>Travel To Right Now!<span></span></h1>
+      </div>
+    </div>
+    <nav>
+      <ul id="nav-menu">
+        <li><a href="index.html">Main Menu</a></li>
+        <li><a href="destionations.html">Destinations</a></li>
+        <li><a href="travelguide.html">Travel Guides</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="#" id="menu-toggle"><img src="menu.png" alt="Menu" class="icon"></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="slider">
+      <div class="slide active"></div>
+      <div class="slide"></div>
+      <div class="slide"></div>
+    </div>
+    <div class="hero-overlay">
+      <h2>There's More To Discover. Explore the Unknown. Expect the Unexpected.</h2>
+    </div>
+    <div class="slider-indicators">
+      <span class="active"></span>
+      <span></span>
+      <span></span>
+    </div>
+  </section>
+  
+  <section style="text-align: center; padding: 40px 20px; color: #a85c00; font-size: 20px; font-weight: bold; position: relative; margin: 0 auto;">
+    Scroll to explore more
+    <div style="position: absolute; left: 50%; bottom: -40px; transform: translateX(-50%); width: 3px; height: 40px; background-color: #ffa500;"></div>
+  </section>
+
+  <section class="info-carousel-section">
+    <div class="info-carousel">
+      <button class="carousel-arrow left" aria-label="Previous">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <div class="info-card active">
+        <img src="tajmahal.jpeg" alt="Taj Mahal">
+        <h3>Taj Mahal</h3>
+        <p>One of the Seven Wonders of the World, the Taj Mahal is a symbol of love and an architectural marvel in Agra.</p>
+      </div>
+      <div class="info-card">
+        <img src="indiagate.jfif" alt="India Gate">
+        <h3>India Gate</h3>
+        <p>A war memorial in New Delhi, India Gate is a popular tourist spot and a symbol of national pride.</p>
+      </div>
+      <div class="info-card">
+        <img src="keralablackwaters.jpg" alt="Kerala Backwaters">
+        <h3>Kerala Backwaters</h3>
+        <p>Experience the tranquil beauty of Kerala's backwaters with a houseboat cruise through lush landscapes.</p>
+      </div>
+      <div class="info-card">
+        <img src="himalaya.jpg" alt="Himalayas">
+        <h3>Himalayas</h3>
+        <p>The mighty Himalayas in North India offer breathtaking views, adventure sports, and spiritual retreats.</p>
+      </div>
+      <div class="info-card">
+        <img src="goabeach.jpg" alt="Goa Beaches">
+        <h3>Goa Beaches</h3>
+        <p>Goa is famous for its golden beaches, vibrant nightlife, and Portuguese-influenced architecture.</p>
+      </div>
+      <div class="info-card">
+        <img src="thardesert.jpg" alt="Thar Desert">
+        <h3>Thar Desert</h3>
+        <p>The Thar Desert in Rajasthan is known for its sand dunes, camel safaris, and colorful culture.</p>
+      </div>
+      <div class="info-card">
+        <img src="sundarban.jpg" alt="Sundarbans Forest">
+        <h3>Sundarbans Forest</h3>
+        <p>The Sundarbans, a UNESCO World Heritage Site, is the world's largest mangrove forest and home to the Bengal tiger.</p>
+      </div>
+      <button class="carousel-arrow right" aria-label="Next">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>
+      </button>
+    </div>
+    <div class="carousel-dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </section>
+
+  <section style="transition: all 0.3s ease; padding: 40px 20px; position: relative;">
+    <div style="max-width: 1200px; margin: 0 auto; position: relative;">
+      <h2 style="text-align: center; font-size: 36px; color: #0a0a5a; margin-bottom: 30px; font-family: 'horizon_normal';">Explore India</h2>
+      <p style="text-align: center; color: #666; margin-bottom: 40px; font-size: 18px;">Discover the diverse landscapes and rich cultural heritage of India</p>
+      
+      <div style="position: relative; background: #fff; padding: 20px; border-radius: 16px; box-shadow: 0 8px 32px rgba(53,60,117,0.1);">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241316.6733250746!2d72.7410999571875!3d19.08219783958221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1709912345678!5m2!1sen!2sin&style=element:geometry%7Ccolor:0x212121&style=element:labels.icon%7Cvisibility:off&style=element:labels.text.fill%7Ccolor:0x757575&style=element:labels.text.stroke%7Ccolor:0x212121&style=feature:administrative%7Celement:geometry%7Ccolor:0x757575&style=feature:administrative.country%7Celement:labels.text.fill%7Ccolor:0x9e9e9e&style=feature:administrative.land_parcel%7Cvisibility:off&style=feature:administrative.locality%7Celement:labels.text.fill%7Ccolor:0xbdbdbd&style=feature:poi%7Celement:labels.text.fill%7Ccolor:0x757575&style=feature:poi.park%7Celement:geometry%7Ccolor:0x181818&style=feature:poi.park%7Celement:labels.text.fill%7Ccolor:0x616161&style=feature:poi.park%7Celement:labels.text.stroke%7Ccolor:0x1b1b1b&style=feature:road%7Celement:geometry.fill%7Ccolor:0x2c2c2c&style=feature:road%7Celement:labels.text.fill%7Ccolor:0x8a8a8a&style=feature:road.arterial%7Celement:geometry%7Ccolor:0x373737&style=feature:road.highway%7Celement:geometry%7Ccolor:0x3c3c3c&style=feature:road.highway.controlled_access%7Celement:geometry%7Ccolor:0x4e4e4e&style=feature:road.local%7Celement:labels.text.fill%7Ccolor:0x616161&style=feature:transit%7Celement:labels.text.fill%7Ccolor:0x757575&style=feature:water%7Celement:geometry%7Ccolor:0x000000&style=feature:water%7Celement:labels.text.fill%7Ccolor:0x3d3d3d" 
+          width="100%" 
+          height="600" 
+          style="border:0; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: all 0.3s ease;" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: flex; align-items: center; background: #353c75; padding: 18px 0 18px 0; margin: 60px 0 40px 0; position: relative; z-index: 1; overflow: visible;">
+    <div style="
+      position: relative;
+      width: 340px;
+      height: 220px;
+      margin-left: 4vw;
+      margin-top: -70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    ">
+      <!-- Gradient Glow Behind Image -->
+      <div style="
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 110%; height: 110%;
+        border-radius: 20px;
+        z-index: 1;
+        pointer-events: none;
+        background: radial-gradient(circle at 60% 40%, rgba(53,60,117,0.25) 0%, rgba(53,60,117,0.10) 60%, transparent 100%);
+        filter: blur(8px);
+      "></div>
+      <!-- The Image -->
+      <img 
+        src="children.png" 
+        alt="Children Smiling" 
+        style="
+          width: 340px; 
+          height: 220px; 
+          border-radius: 16px; 
+          object-fit: cover;
+          z-index: 2;
+          position: relative;
+          box-shadow: 0 8px 32px rgba(53,60,117,0.10);
+        "
+      >
+    </div>
+    <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+      <a href="guide.html" style="color: #fff; font-size: 2em; text-decoration: underline; font-family: 'inter'; display: flex; align-items: center;">
+        Guide to Delhi: The National Capital
+        <span style="margin-left: 8px; font-size: 1.5rem;">&#x1F5D7;</span>
+      </a>
+    </div>
+  </section>
+
+  <section style="padding: 60px 20px; position: relative; z-index: 1;">
+    <div style="max-width: 1100px; margin: auto;">
+      <h2 style="text-align: center; font-size: 36px; color: #0a0a5a; margin-bottom: 40px; font-family: 'horizon_normal';">NOW TRENDING</h2>
+      <div class="trending-container" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; position: relative;">
+        <a href="trending1.html" class="trending-box" style="flex: 1 1 300px; background-color: rgba(230, 234, 246, 0.8); padding: 10px; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-decoration: none; transition: transform 0.3s ease, box-shadow 0.3s ease; z-index: 2; position: relative;">
+          <img src="Trending.png" alt="Trending 1" style="width: 100%; border-radius: 6px;">
+          <p style="padding: 10px 0; color: #333; font-size: 15px;">Goa's sun-drenched beaches, swaying palms, and lively coastal charm make it the perfect escape for travelers seeking both relaxation and adventure.</p>
+        </a>
+        <a href="trending2.html" class="trending-box" style="flex: 1 1 300px; background-color: rgba(230, 234, 246, 0.8); padding: 10px; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-decoration: none; transition: transform 0.3s ease, box-shadow 0.3s ease; z-index: 2; position: relative;">
+          <img src="Trending2.png" alt="Trending 2" style="width: 100%; border-radius: 6px;">
+          <p style="padding: 10px 0; color: #333; font-size: 15px;">Sonamarg's breathtaking alpine meadows, towering snow-clad peaks, and crystal-clear streams offer a picture-perfect retreat for nature lovers and adventure seekers alike.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 60px 20px; position: relative;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <h2 style="text-align: center; font-size: 36px; color: #0a0a5a; margin-bottom: 40px; font-family: 'horizon_normal';">Travel Tips & Seasonal Guide</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 40px;">
+        <div style="background: rgba(255, 255, 255, 0.9); padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(53,60,117,0.08);">
+          <h3 style="color: #353c75; font-size: 24px; margin-bottom: 15px; font-family: 'horizon_normal';">Best Time to Visit</h3>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin: 12px 0; color: #666; display: flex; align-items: center;">
+              <span style="color: #ffa500; margin-right: 10px;">•</span>
+              October to March: Perfect weather for exploring
+            </li>
+            <li style="margin: 12px 0; color: #666; display: flex; align-items: center;">
+              <span style="color: #ffa500; margin-right: 10px;">•</span>
+              April to June: Ideal for hill stations
+            </li>
+            <li style="margin: 12px 0; color: #666; display: flex; align-items: center;">
+              <span style="color: #ffa500; margin-right: 10px;">•</span>
+              July to September: Best for monsoon experiences
+            </li>
+          </ul>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.9); padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(53,60,117,0.08);">
+          <h3 style="color: #353c75; font-size: 24px; margin-bottom: 15px; font-family: 'horizon_normal';">Essential Tips</h3>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin: 12px 0; color: #666; display: flex; align-items: center;">
+              <span style="color: #ffa500; margin-right: 10px;">•</span>
+              Book accommodations in advance
+            </li>
+            <li style="margin: 12px 0; color: #666; display: flex; align-items: center;">
+              <span style="color: #ffa500; margin-right: 10px;">•</span>
+              Carry local currency and cards
+            </li>
+            <li style="margin: 12px 0; color: #666; display: flex; align-items: center;">
+              <span style="color: #ffa500; margin-right: 10px;">•</span>
+              Respect local customs and traditions
+            </li>
+          </ul>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.9); padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(53,60,117,0.08);">
+          <h3 style="color: #353c75; font-size: 24px; margin-bottom: 15px; font-family: 'horizon_normal';">Must-Have Items</h3>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin: 12px 0; color: #666; display: flex; align-items: center;">
+              <span style="color: #ffa500; margin-right: 10px;">•</span>
+              Comfortable walking shoes
+            </li>
+            <li style="margin: 12px 0; color: #666; display: flex; align-items: center;">
+              <span style="color: #ffa500; margin-right: 10px;">•</span>
+              Weather-appropriate clothing
+            </li>
+            <li style="margin: 12px 0; color: #666; display: flex; align-items: center;">
+              <span style="color: #ffa500; margin-right: 10px;">•</span>
+              Basic first aid kit
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 40px;">
+        <a href="travelguide.html" style="display: inline-block; background: #353c75; color: #fff; padding: 15px 30px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
+          View Complete Travel Guide
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background: #353c75; color: #fff; padding: 60px 20px 30px; position: relative;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
+        <div>
+          <h3 style="font-size: 24px; margin-bottom: 20px; font-family: 'horizon_normal';">About Us</h3>
+          <p style="color: #e6eaf6; line-height: 1.6;">Your trusted companion in exploring the diverse and vibrant landscapes of India. We're dedicated to making your travel experience unforgettable.</p>
+        </div>
+        
+        <div>
+          <h3 style="font-size: 24px; margin-bottom: 20px; font-family: 'horizon_normal';">Quick Links</h3>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin: 10px 0;"><a href="destinations.html" style="color: #e6eaf6; text-decoration: none; transition: color 0.3s;">Destinations</a></li>
+            <li style="margin: 10px 0;"><a href="travelguide.html" style="color: #e6eaf6; text-decoration: none; transition: color 0.3s;">Travel Guides</a></li>
+            <li style="margin: 10px 0;"><a href="gallery.html" style="color: #e6eaf6; text-decoration: none; transition: color 0.3s;">Gallery</a></li>
+            <li style="margin: 10px 0;"><a href="contact.html" style="color: #e6eaf6; text-decoration: none; transition: color 0.3s;">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 style="font-size: 24px; margin-bottom: 20px; font-family: 'horizon_normal';">Contact Info</h3>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin: 10px 0; color: #e6eaf6;">Email: info@travelindia.com</li>
+            <li style="margin: 10px 0; color: #e6eaf6;">Phone: +91 123 456 7890</li>
+            <li style="margin: 10px 0; color: #e6eaf6;">Address: New Delhi, India</li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 style="font-size: 24px; margin-bottom: 20px; font-family: 'horizon_normal';">Follow Us</h3>
+          <div style="display: flex; gap: 15px;">
+            <a href="#" style="color: #e6eaf6; text-decoration: none; font-size: 24px;">📱</a>
+            <a href="#" style="color: #e6eaf6; text-decoration: none; font-size: 24px;">📸</a>
+            <a href="#" style="color: #e6eaf6; text-decoration: none; font-size: 24px;">🐦</a>
+            <a href="#" style="color: #e6eaf6; text-decoration: none; font-size: 24px;">📘</a>
+          </div>
+        </div>
+      </div>
+      
+      <div style="text-align: center; padding-top: 30px; border-top: 1px solid rgba(230, 234, 246, 0.1);">
+        <p style="color: #e6eaf6;">© 2024 Travel India. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const menuToggle = document.getElementById("menu-toggle");
+    const navMenu = document.getElementById("nav-menu");
+
+    menuToggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      navMenu.classList.toggle("active");
+    });
+
+    const navLinks = document.querySelectorAll("nav a");
+
+    navLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("active");
+      });
+    });
+
+    const slides = document.querySelectorAll('.slide');
+    const indicators = document.querySelectorAll('.slider-indicators span');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      indicators.forEach(indicator => indicator.classList.remove('active'));
+      
+      slides[index].classList.add('active');
+      indicators[index].classList.add('active');
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    setInterval(nextSlide, 5000);
+
+    const trendingBoxes = document.querySelectorAll('.trending-box');
+    trendingBoxes.forEach(box => {
+      box.addEventListener('mouseenter', () => {
+        box.style.transform = 'scale(1.07)';
+        box.style.boxShadow = '0 8px 24px rgba(0,0,0,0.18)';
+      });
+      box.addEventListener('mouseleave', () => {
+        box.style.transform = '';
+        box.style.boxShadow = '';
+      });
+    });
+
+    const infoCards = document.querySelectorAll('.info-card');
+    const dots = document.querySelectorAll('.carousel-dots .dot');
+    const leftArrow = document.querySelector('.carousel-arrow.left');
+    const rightArrow = document.querySelector('.carousel-arrow.right');
+    let currentCard = 0;
+
+    function updateCarousel() {
+      infoCards.forEach((card, i) => {
+        card.classList.remove('left2', 'left1', 'center', 'right1', 'right2');
+        let diff = (i - currentCard + infoCards.length) % infoCards.length;
+        if (i === currentCard) {
+          card.classList.add('center');
+        } else if (diff === 1 || diff === -infoCards.length + 1) {
+          card.classList.add('right1');
+        } else if (diff === 2 || diff === -infoCards.length + 2) {
+          card.classList.add('right2');
+        } else if (diff === infoCards.length - 1 || diff === -1) {
+          card.classList.add('left1');
+        } else if (diff === infoCards.length - 2 || diff === -2) {
+          card.classList.add('left2');
+        }
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentCard);
+      });
+    }
+
+    function nextCard() {
+      currentCard = (currentCard + 1) % infoCards.length;
+      updateCarousel();
+    }
+
+    function prevCard() {
+      currentCard = (currentCard - 1 + infoCards.length) % infoCards.length;
+      updateCarousel();
+    }
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => {
+        currentCard = idx;
+        updateCarousel();
+      });
+    });
+
+    leftArrow.addEventListener('click', prevCard);
+    rightArrow.addEventListener('click', nextCard);
+
+    updateCarousel();
+    setInterval(nextCard, 3500);
+  </script>
+</body>
+</html> 

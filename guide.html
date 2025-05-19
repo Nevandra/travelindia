@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Travel India</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @font-face {
+      font-family: 'Poppins';
+      src: url('Poppins-Regular.ttf') format('truetype');
+    }
+
+    @font-face {
+      font-family: 'inter';
+      src: url('Inter-Medium.otf') format('opentype');
+    }
+    
+    @font-face {
+      font-family: 'horizon';
+      src: url('horizon_outlined.otf') format('opentype');
+    }
+
+    @font-face {
+      font-family: 'horizon_normal';
+      src: url('horizon.otf') format('opentype');
+    }
+
+    body {
+      font-family: 'inter';
+      color: #333;
+      scroll-behavior: smooth;
+      background-color: #e6eaf6;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 30px;
+      background-color: #e6eaf6;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 80px;
+      margin-right: 10px;
+    }
+
+    .logo h1 {
+      font-family: 'inter';
+      font-size: 20px;
+      color: #1e1e80;
+    }
+
+    .logo h1 span {
+      color: #ffa500;
+    }
+
+    .logo p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+    }
+
+    nav ul li {
+      margin-left: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-size: 16px;
+    }
+
+    nav a:hover {
+      color: #ffa500;
+    }
+
+    .icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    .hero {
+      position: relative;
+      height: 600px;
+      overflow: hidden;
+    }
+
+    .slider {
+      position: relative;
+      height: 100%;
+      width: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      background: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('guide.jfif') no-repeat center center/cover;
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    .slide:nth-child(2) {
+      background: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('menu-image2.png') no-repeat center center/cover;
+    }
+
+    .slide:nth-child(3) {
+      background: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('menu-image3.png') no-repeat center center/cover;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #e6eaf6;
+      padding: 20px;
+    }
+
+    .hero-overlay h2 {
+      font-size: 50px;
+      max-width: 1000px;
+      line-height: 1.5;
+    }
+
+    .slider-indicators {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .slider-indicators span {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: #e6eaf6;
+      border-radius: 50%;
+      margin: 0 5px;
+      opacity: 0.5;
+    }
+
+    .slider-indicators .active {
+      opacity: 1;
+    }
+
+    #menu-toggle {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        background: #e6eaf6;
+        width: 200px;
+        display: none;
+        padding: 20px;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      nav ul li {
+        margin: 15px 0;
+      }
+
+      #menu-toggle {
+        display: block;
+      }
+    }
+
+    .guide-content {
+      padding: 50px 20px;
+      background-color: #f8f9fa;
+    }
+
+    .guide-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .guide-box {
+      background: white;
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .guide-box h2 {
+      color: #1e1e80;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      font-family: 'inter';
+    }
+
+    .guide-box h3 {
+      color: #1e1e80;
+      font-size: 1.8em;
+      margin: 30px 0 15px;
+      font-family: 'inter';
+    }
+
+    .guide-box p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #444;
+      margin-bottom: 20px;
+    }
+
+    .guide-image {
+      margin: 30px 0;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    .guide-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .guide-image img:hover {
+      transform: scale(1.02);
+    }
+
+    @media (max-width: 768px) {
+      .guide-box {
+        padding: 20px;
+      }
+
+      .guide-box h2 {
+        font-size: 2em;
+      }
+
+      .guide-box h3 {
+        font-size: 1.5em;
+      }
+
+      .guide-box p {
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="Travel India Logo">
+      <div>
+        <h1>The Best Place To<span></span></h1>
+        <h1>Travel To Right Now!<span></span></h1>
+      </div>
+    </div>
+    <nav>
+      <ul id="nav-menu">
+        <li><a href="index.html">Return</a></li>
+        <li><a href="#" id="menu-toggle"><img src="guide.jfif" alt="Menu" class="icon"></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="slider">
+      <div class="slide active"></div>
+      <div class="slide"></div>
+      <div class="slide"></div>
+    </div>
+    <div class="hero-overlay">
+      <h2>A Guide to Delhi: The National Capital</h2>
+    </div>
+  </section>
+
+  <section class="guide-content">
+    <div class="guide-container">
+      <div class="guide-box">
+        <h2>Welcome to Delhi</h2>
+        <p>Delhi, India's vibrant capital, offers a mesmerizing blend of history and modernity. Start your journey in Old Delhi, where the narrow lanes tell stories from the Mughal era. Visit the majestic Red Fort, the grand Jama Masjid, and dive into the chaos of Chandni Chowk, known for its street food and traditional markets. The scent of freshly fried samosas and sweet jalebis will tempt your taste buds while rickshaws zip past you in a whirl of color and sound.</p>
+        
+        <div class="guide-image">
+          <img src="image1.jpg" alt="Chandni Chowk">
+        </div>
+
+        <h3>New Delhi Highlights</h3>
+        <p>Next, head to New Delhi, designed by British architect Edwin Lutyens. This part of the city boasts wide boulevards and colonial-era buildings. Don't miss India Gate, a war memorial surrounded by lush gardens, and Rashtrapati Bhavan, the official residence of the President. The contrast between New Delhi's planned elegance and Old Delhi’s lived-in chaos gives the city a unique duality that fascinates every visitor.</p>
+
+        <div class="guide-image">
+          <img src="image2.jpg" alt="New Delhi">
+        </div>
+
+        <h3>Cultural Cityscape</h3>
+        <p>For a cultural and spiritual experience, explore landmarks like Lotus Temple, Humayun’s Tomb, and the towering Qutub Minar. Delhi’s museums, vibrant bazaars, and diverse culinary scene—from five-star dining to street stalls—reflect the city’s dynamic spirit. Whether you're sipping chai in a quiet park or bargaining in a bustling bazaar, Delhi promises an unforgettable experience with every step.</p>
+
+        <div class="guide-image">
+          <img src="image3.jpg" alt="Lotus Temple">
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</body>
+</html> 
